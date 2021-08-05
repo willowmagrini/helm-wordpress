@@ -1,0 +1,39 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "wordpress.fullname" . -}}
+{{- $secretName := .Values.ingress.secretName -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "wordpress.name" . }}
+    helm.sh/chart: {{ include "wordpress.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod 
+    kubernetes.io/tls-acme: "true" 
+    nginx.ingress.kubernetes.io/proxy-body-size: 60m
+  {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  tls:
+    - hosts:
+      {{- range .Values.ingress.hosts }}
+      - {{ .host }}
+      {{- end }}
+      secretName: {{ $secretName }}
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: 80
+        {{- end }}
+  {{- end }}
+{{- end }}

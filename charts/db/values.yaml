@@ -1,0 +1,135 @@
+# DB Chart
+##
+image: "mariadb:10.4"
+
+fullnameOverride: db
+
+strategy:
+  type: Recreate
+
+## Specify password for root user
+## Default: random 10 character string
+# mysqlRootPassword: testing
+
+## Create a database user
+mysqlUser: dbuser
+## Default: random 10 character string
+mysqlPassword: password
+
+## Create a database
+mysqlDatabase: dbname
+
+# timezone: Europe/Sofia
+
+imagePullPolicy: IfNotPresent
+
+args: []
+
+extraVolumes: |
+  # - name: extras
+  #   emptyDir: {}
+extraVolumeMounts: |
+  # - name: extras
+  #   mountPath: /usr/share/extras
+  #   readOnly: true
+
+# nodeSelector:
+#   hosting: "true"
+
+tolerations: []
+
+livenessProbe:
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+## Persist data to a persistent volume
+persistence:
+  storageClass: sc-databases
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  annotations: {}
+
+## Security context
+securityContext:
+  enabled: false
+  runAsUser: 999
+  fsGroup: 999
+
+## Configure resource requests and limits
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+  limits:
+    memory: 1024Mi
+    cpu: 500m
+
+# Custom mariadb configuration files path
+configurationFilesPath: /etc/mysql/conf.d/
+
+# Custom mariadb configuration files used to override default mariadb settings
+configurationFiles: {}
+#  mysql.cnf: |-
+#    [mysqld]
+#    skip-name-resolve
+#    ssl-ca=/ssl/ca.pem
+#    ssl-cert=/ssl/server-cert.pem
+#    ssl-key=/ssl/server-key.pem
+
+initializationFiles: {}
+
+## Enable backup annotations 
+backupEnabled: true
+
+## Configure the service
+service:
+  annotations: {}
+  ## Specify a service type
+  type: ClusterIP
+  style: None
+  port: 3306
+
+
+## Pods Service Account
+
+serviceAccount:
+  create: false
+
+ssl:
+  enabled: false
+  secret: mariadb-ssl-certs
+  certificates:
+#  - name: mariadb-ssl-certs
+#    ca: |-
+#      -----BEGIN CERTIFICATE-----
+#      ...
+#      -----END CERTIFICATE-----
+#    cert: |-
+#      -----BEGIN CERTIFICATE-----
+#      ...
+#      -----END CERTIFICATE-----
+#    key: |-
+#      -----BEGIN RSA PRIVATE KEY-----
+#      ...
+#      -----END RSA PRIVATE KEY-----
+
+
+# Deployment Annotations
+deploymentAnnotations: {}
+
+# To be added to the database server pod(s)
+podAnnotations: {}
+podLabels: {}
+
+schedulerName: {}
+

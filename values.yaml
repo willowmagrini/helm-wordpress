@@ -1,0 +1,82 @@
+# Default values for mautic.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+fullnameOverride: wordpress
+
+replicaCount: 1
+
+image: hacklab/wp:latest
+imagePullPolicy: IfNotPresent
+
+strategy:
+  type: Recreate
+
+### WORDPRESS CONFIG ###
+## Wordpress Database Host
+wordpressDbHost: db
+
+## Create a database user
+wordpressUser: wordpress
+
+## Create a database user
+wordpressPassword: db-password
+
+## Create a database
+wordpressDatabase: wordpress
+
+# timezone: America/Sao_Paulo
+
+### MARIADB SUB-CHART CONFIG START ###
+
+db:
+  mysqlUser: wordpress
+  mysqlPassword: db-password
+  mysqlDatabase: wordpress
+### MARIADB SUB-CHART CONFIG END ###
+
+args: []
+
+## Persist data to a persistent volume
+persistence:
+  storageClass: cephfs
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  annotations: {}
+
+## Enable backup annotations 
+backupEnabled: true
+
+service:
+  type: ClusterIP
+  style: None
+  port: 80
+
+ingress:
+  enabled: true
+  annotations: {}
+  secretName: wordpress-crt
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  # hosts:
+  #   - host: teste.ims.com.br
+  #     paths: ['/']
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: 
+   limits:
+     cpu: 500m
+     memory: 512Mi
+   requests:
+     cpu: 10m
+     memory: 64Mi
+
+# nodeSelector: 
+#   hosting: "true"
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-ini
+data:
+  wordpress.ini: |-
+        file_uploads = On
+        upload_max_filesize = 50M
+        post_max_size = 52M
+        max_file_uploads = 20
+        memory_limit = 256M
+        max_execution_time = 30
+        # apc.shm_size = 512M
