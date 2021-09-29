@@ -15,10 +15,13 @@ install.sh --namespace=project-namespace --host=mysite.com [--wp-image=hacklab/w
 
     --db-image         imagem utilizada para o pod do banco de dados. (padrão: mariadb:10.4)
     --db-volume-size   tamanho do volume do banco de dados, montado em /var/lib/mysql (padrão: 2Gi).
-    --db-volume-sc     storage class do volume do banco de dados (padrão: sc-database).
+    --db-volume-sc     storage class do volume do banco de dados (padrão: sc-databases).
 ```
 
 exemplo:
 ```
 ./install.sh --namespace=teste1 --host=teste.hacklab.com.br --db-image=mysql:5.4 --db-volume-size=3Gi --wp-volume-size=4Gi --wp-volume-sc=gp2 --db-volume-sc=gp2
 ```
+
+	./install.sh --namespace=plenamata-site-dev --host=plenamata.hacklab.com.br --db-volume-size=3Gi --wp-volume-size=4Gi --wp-volume-sc=cephfs --db-volume-sc=sc-databases
+    

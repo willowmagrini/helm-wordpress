@@ -7,7 +7,7 @@ WP_VOLUME_SIZE="5Gi"
 DB_VOLUME_SIZE="2Gi"
 
 WP_VOLUME_STORAGE_CLASS="cephfs"
-DB_VOLUME_STORAGE_CLASS="sc-database"
+DB_VOLUME_STORAGE_CLASS="sc-databases"
 
 
 install_help () {
