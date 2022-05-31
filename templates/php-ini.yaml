@@ -5,9 +5,9 @@ metadata:
 data:
   wordpress.ini: |-
         file_uploads = On
-        upload_max_filesize = 50M
-        post_max_size = 52M
-        max_file_uploads = 20
-        memory_limit = 256M
-        max_execution_time = 30
+        upload_max_filesize = 10240M
+        post_max_size = 1024M
+        max_file_uploads = 50
+        memory_limit = 512M
+        max_execution_time = 60
         # apc.shm_size = 512M
