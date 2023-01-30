@@ -25,7 +25,7 @@ spec:
       annotations:
         backup.velero.io/backup-volumes: backups
         pre.hook.backup.velero.io/command: '[ "bash", "/scripts/backup.sh" ]'
-        pre.hook.backup.velero.io/timeout: 2m
+        pre.hook.backup.velero.io/timeout: 4m
       {{- end }}
     spec:
       securityContext:
