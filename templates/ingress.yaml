@@ -13,7 +13,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod 
     kubernetes.io/tls-acme: "true" 
-    nginx.ingress.kubernetes.io/proxy-body-size: 60m
+    nginx.ingress.kubernetes.io/proxy-body-size: 1000m
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
