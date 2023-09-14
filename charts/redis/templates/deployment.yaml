@@ -21,12 +21,6 @@ spec:
       labels:
         app: {{ template "redis.fullname" . }}
         release: {{ .Release.Name }}
-      {{- if .Values.backupEnabled }}
-      annotations:
-        backup.velero.io/backup-volumes: backups
-        pre.hook.backup.velero.io/command: '[ "bash", "/scripts/backup.sh" ]'
-        pre.hook.backup.velero.io/timeout: 4m
-      {{- end }}
     spec:
       securityContext:
         fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -45,18 +39,4 @@ spec:
           - {{ . | quote }}
         {{- end }}
         {{- end }}
-        resources:
-{{ toYaml .Values.resources | indent 10 }}
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: {{ randAlphaNum 18 | b64enc | quote }}
-        - name: MYSQL_PASSWORD
-          value: {{ .Values.mysqlPassword }}
-        - name: MYSQL_USER
-          value: {{ default "" .Values.mysqlUser | quote }}
-        - name: MYSQL_DATABASE
-          value: {{ default "" .Values.mysqlDatabase | quote }}
-        {{- if .Values.timezone }}
-        - name: TZ
-          value: {{ .Values.timezone }}
-        {{- end }}
+        

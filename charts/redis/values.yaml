@@ -4,11 +4,8 @@
 
 replicaCount: 1
 
-image:
-  repository: redis
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+image: redis:latest
+imagepullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
