@@ -45,3 +45,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+## Configure the service
+service:
+  annotations: {}
+  ## Specify a service type
+  type: ClusterIP
+  style: None
+  port: 42
+  clusterip: None
+
+
+## Pods Service Account
+
+serviceAccount:
+  create: false
